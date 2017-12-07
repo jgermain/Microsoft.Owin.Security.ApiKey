@@ -36,3 +36,21 @@ private async Task<IEnumerable<Claim>> GenerateClaims(ApiKeyGenerateClaimsContex
     return new[] { new Claim(ClaimTypes.Name, "Fred") };
 }
 ```
+
+### Custom Status Codes
+If you do not validate the context when validating the incoming identity then the middleware will default to an HTTP status code of 401. If you wish to return a different status code (e.g. a client's subscription has expired) then you can set a custom status code in the validation context:
+
+```csharp
+private async Task ValidateIdentity(ApiKeyValidateIdentityContext context)
+{
+    if (context.ApiKey == "123")
+    {
+        context.Validate();
+    }
+    
+    if (subscription.IsExpired)
+    {
+        context.StatusCode = 402;
+    }
+}
+```
