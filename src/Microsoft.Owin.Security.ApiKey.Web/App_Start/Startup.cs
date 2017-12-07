@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -14,12 +16,12 @@ namespace Microsoft.Owin.Security.ApiKey.Web
     {
         public void Configuration(IAppBuilder app)
         {
-            app.UseApiKeyAuthentication(new ApiKeyAuthenticationOptions()
+            app.UseApiKeyAuthentication(new ApiKeyAuthenticationOptions
             {
-                Provider = new ApiKeyAuthenticationProvider()
+                Provider = new ApiKeyAuthenticationProvider
                 {
-                    OnValidateIdentity = this.ValidateApiKey,
-                    OnGenerateClaims = this.GenerateClaims
+                    OnValidateIdentity = ValidateIdentity,
+                    OnGenerateClaims = GenerateClaims
                 }
             });
 
@@ -36,15 +38,21 @@ namespace Microsoft.Owin.Security.ApiKey.Web
             app.UseWebApi(config);
         }
 
-        private async Task<IEnumerable<Claim>> GenerateClaims(ApiKeyGenerateClaimsContext context)
-            => new[] { new Claim(ClaimTypes.Name, "Fred") };
-
-        private async Task ValidateApiKey(ApiKeyValidateIdentityContext context)
+        private static Task ValidateIdentity(ApiKeyValidateIdentityContext context)
         {
             if (context.ApiKey == "123")
             {
                 context.Validate();
             }
+            else if (context.ApiKey == "789")
+            {
+                context.StatusCode = HttpStatusCode.UpgradeRequired;
+            }
+
+            return Task.FromResult(0);
         }
+
+        private static Task<IEnumerable<Claim>> GenerateClaims(ApiKeyGenerateClaimsContext context)
+            => Task.FromResult(new[] { new Claim(ClaimTypes.Name, "Fred") }.AsEnumerable());
     }
 }

@@ -28,11 +28,16 @@ namespace Microsoft.Owin.Security.ApiKey
 
                         var identity = new ClaimsIdentity(claims, this.Options.AuthenticationType);
 
-                        return new AuthenticationTicket(identity, new AuthenticationProperties()
+                        return new AuthenticationTicket(identity, new AuthenticationProperties
                         {
                             IssuedUtc = DateTime.UtcNow
                         });
                     }
+
+                    context.Response.OnSendingHeaders(state =>
+                    {
+                        ((OwinResponse)state).StatusCode = (int)context.StatusCode;
+                    }, context.Response);
                 }
             }
 
