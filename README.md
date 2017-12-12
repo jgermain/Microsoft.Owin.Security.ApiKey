@@ -50,6 +50,7 @@ private async Task ValidateIdentity(ApiKeyValidateIdentityContext context)
     
     if (subscription.IsExpired)
     {
+		content.RewriteStatusCode = true;
         context.StatusCode = 402;
     }
 }

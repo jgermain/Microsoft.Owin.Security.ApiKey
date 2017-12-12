@@ -29,12 +29,6 @@ namespace Microsoft.Owin.Security.ApiKey.Web
 
             config.MapHttpAttributeRoutes();
 
-            config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
-
             app.UseWebApi(config);
         }
 
@@ -46,6 +40,7 @@ namespace Microsoft.Owin.Security.ApiKey.Web
             }
             else if (context.ApiKey == "789")
             {
+                context.RewriteStatusCode = true;
                 context.StatusCode = HttpStatusCode.UpgradeRequired;
             }
 

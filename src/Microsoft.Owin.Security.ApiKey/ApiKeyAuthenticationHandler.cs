@@ -34,10 +34,13 @@ namespace Microsoft.Owin.Security.ApiKey
                         });
                     }
 
-                    context.Response.OnSendingHeaders(state =>
+                    if (context.RewriteStatusCode)
                     {
-                        ((OwinResponse)state).StatusCode = (int)context.StatusCode;
-                    }, context.Response);
+                        context.Response.OnSendingHeaders(state =>
+                        {
+                            ((OwinResponse)state).StatusCode = (int)context.StatusCode;
+                        }, context.Response);
+                    }
                 }
             }
 
