@@ -17,6 +17,11 @@ namespace Microsoft.Owin.Security.ApiKey.Contexts
         public bool IsValidated { get; private set; }
 
         /// <summary>
+        /// True if you wish to rewrite the HTTP status code when responding to the client.
+        /// </summary>
+        public bool RewriteStatusCode { get; set; }
+
+        /// <summary>
         /// The HTTP status code to use when responding to the client. This is only used if the
         /// context is not validated, i.e. the user is not authenticated.
         /// </summary>
