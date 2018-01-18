@@ -37,6 +37,33 @@ private async Task<IEnumerable<Claim>> GenerateClaims(ApiKeyGenerateClaimsContex
 }
 ```
 
+### Customising Header Values
+The format of the expected header containing the API key is completely customisable. By default, it expects a header in the following format:
+
+```
+Authentication: ApiKey {key}
+```
+
+If you wish to override this format, override the default values when passing in your `ApiKeyAuthenticationOptions`. For example:
+
+```
+// Authentication: X-API-KEY {key}
+
+new ApiKeyAuthenticationOptions()
+{
+	Header = "Authentication", // is the default
+	HeaderKey = "X-API-KEY"
+}
+
+// X-API-KEY: {key}
+
+new ApiKeyAuthenticationOptions()
+{
+	Header = "X-API-KEY",
+	HeaderKey = String.Empty
+}
+```
+
 ### Custom Status Codes
 If you do not validate the context when validating the incoming identity then the middleware will default to an HTTP status code of 401. If you wish to return a different status code (e.g. a client's subscription has expired) then you can set a custom status code in the validation context:
 
