@@ -47,20 +47,20 @@ Authentication: ApiKey {key}
 If you wish to override this format, override the default values when passing in your `ApiKeyAuthenticationOptions`. For example:
 
 ```
-// Authentication: X-API-KEY {key}
+// Authentication: MyType {key}
 
 new ApiKeyAuthenticationOptions()
 {
-	Header = "Authentication", // is the default
-	HeaderKey = "X-API-KEY"
+    Header = "Authentication", // is the default
+    HeaderKey = "MyType"
 }
 
 // X-API-KEY: {key}
 
 new ApiKeyAuthenticationOptions()
 {
-	Header = "X-API-KEY",
-	HeaderKey = String.Empty
+    Header = "X-API-KEY",
+    HeaderKey = String.Empty
 }
 ```
 
