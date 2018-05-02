@@ -41,13 +41,13 @@ private async Task<IEnumerable<Claim>> GenerateClaims(ApiKeyGenerateClaimsContex
 The format of the expected header containing the API key is completely customisable. By default, it expects a header in the following format:
 
 ```
-Authentication: ApiKey {key}
+Authorization: ApiKey {key}
 ```
 
 If you wish to override this format, override the default values when passing in your `ApiKeyAuthenticationOptions`. For example:
 
 ```
-// Authentication: MyType {key}
+// Authorization: MyType {key}
 
 new ApiKeyAuthenticationOptions()
 {
